@@ -1,7 +1,7 @@
 # Various kinds of infrastructural stuff from Python Virtual environment setup:
 __pycache__
 pip-selfcheck.json
-pyvenv.cvg
+pyvenv.cfg
 Scripts/**
 # This tells git to ignore Emacs "backup files":
 **/*~
