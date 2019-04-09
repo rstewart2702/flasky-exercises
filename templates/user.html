@@ -3,7 +3,12 @@
 {% block title %}Flasky{% endblock %}
 
 {% block page_content %}
-<div class=page-header">
+<div class="page-header">
   <h1>Hello, {{ name }}!</h1>
 </div>
+{# This is a jinja2 comment block!
+   The parameters' names actually do matter; so you're absolutely writing
+   template code in terms of the defined functions, and their parameter names. #}
+N.B. the absolute address of this page is:
+  <a href="{{ url_for('user', IName=name, _external=True) }}">{{ url_for('user', IName=name, _external=True) }}</a>
 {% endblock %}
