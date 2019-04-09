@@ -2,6 +2,7 @@
 __pycache__
 pip-selfcheck.json
 pyvenv.cvg
+Scripts/**
 # This tells git to ignore Emacs "backup files":
 **/*~
 #
