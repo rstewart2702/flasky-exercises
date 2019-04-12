@@ -26,3 +26,7 @@ def internal_server_error(e):
 @app.route('/test-err500')
 def test_err500():
     abort(500)
+
+@app.route('/test-err404')
+def test_err404():
+    abort(404)
