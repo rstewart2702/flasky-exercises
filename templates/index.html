@@ -2,9 +2,14 @@
 
 {% block title %}Flasky{% endblock %}
 
+{# Recall that parameters passed to the render_template from the "destination function"
+will be made available herein.  In this case, one parameter is current_time. #}
+
 {% block page_content %}
 <div class="page-header">
-    <h1>Hello World!</h1>
+  <h1>Hello World!</h1>
+  <p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
+  <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
 </div>
 N.B. the absolute address of this page is:
   <a href="{{ url_for('index', _external=True) }}">{{ url_for('index', _external=True) }}</a>
