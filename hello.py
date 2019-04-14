@@ -2,6 +2,21 @@ from flask import Flask, render_template, abort
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
+# Forms help and support:
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+
+class NameForm(FlaskForm):
+    name = \
+    StringField(
+        'What is your name',
+        validators = [DataRequired()]
+        )
+    submit = \
+    SubmitField('Submit')
+
+
 # This allows a "page-loaded" time to be propagated to the page,
 # expressed in UTC, and the Moment.js Javascript can then be
 # pushed to user pages to get the browser client to calculated
@@ -10,13 +25,26 @@ from datetime import datetime
 
 
 app = Flask(__name__)
+# N.B. this is really just an example of how it might be done,
+# and the real SECRET_KEY of a real application would likely be
+# set up via an environment variable or some other mechanism
+# that's easier to secure properly from prying eyes.
+#
+# An application SECRET_KEY is used by the form-handling to protect
+# from cross-site request forgery, CSRF.
+app.config['SECRET_KEY']='hard to guess string'
 
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
-    return render_template('index.html', current_time = datetime.utcnow())
+    name = None
+    form = NameForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ''
+    return render_template('index.html', form = form, name = name, current_time = datetime.utcnow())
 
 
 @app.route('/user/<IName>')
