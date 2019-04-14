@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Flasky{% endblock %}
 
@@ -7,7 +8,10 @@ will be made available herein.  In this case, one parameter is current_time. #}
 
 {% block page_content %}
 <div class="page-header">
-  <h1>Hello World!</h1>
+  <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+  {# Render the passed-in form: #}
+  {{ wtf.quick_form(form) }}
+  
   <p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
   <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
 </div>
