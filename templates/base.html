@@ -39,6 +39,9 @@
 
 {% block content %}
 <div class="container">
+  {# Looks like this lets us render a Bootstrap-styled "message button"
+     and we can just splice into the message-button's body the text of the piled-up
+     flash-messages... #}
   {% for message in get_flashed_messages() %}
   <div class="alert alert-warning">
     <button type="button" class="close" data-dismiss="alert">&times;</button>

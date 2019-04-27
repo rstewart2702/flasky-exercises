@@ -66,8 +66,11 @@ def index():
         if old_name is not None and old_name != form.name.data:
             # The flash() function is invoked with a message to be displayed on
             # the next response sent back to the client!
-            # Of course, a template must also be changed along with this!
+            # Of course, a template must also be changed along with this,
+            # in order to retrieve the accumulated message texts into a
+            # rendered page.
             flash('Looks like you have changed your name!')
+            flash('Feel free to change as often as necessary...')
         #
         # If the user submitted data which passed validation,
         # then we wish to store the name field's data inside
