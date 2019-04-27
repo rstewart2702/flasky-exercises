@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, session, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
@@ -75,10 +75,15 @@ def index():
         session['name'] = form.name.data
         return redirect(url_for('index'))
     #
+    # N.B. session.get('name') will evaluate to None if there are no data
+    # stored under the 'name' key within the session.
+    # If we had written session['name'] instead, that expression could
+    # result in an exception if there is no 'name' key within session.
+    # Using the get() method is preferable.
     return render_template(
         'index.html',
         form = form,
-        name = name,
+        name = session.get('name'),
         current_time = datetime.utcnow()
     )
 
