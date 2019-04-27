@@ -63,8 +63,18 @@ def index():
     name = None
     form = NameForm()
     if form.validate_on_submit():
-        name = form.name.data
-        form.name.data = ''
+        # If the user submitted data which passed validation,
+        # then we wish to store the name field's data inside
+        # a session-local variable called 'name' so that it
+        # persists across invocations to this function, and
+        # redirect the user's browser to the this same place
+        # again, which will allow the form to be redisplayed
+        # due to a GET request submitted by the browser,
+        # because of the redirect.
+        # This implements the "post-redirect-get" cycle.
+        session['name'] = form.name.data
+        return redirect(url_for('index'))
+    #
     return render_template(
         'index.html',
         form = form,
