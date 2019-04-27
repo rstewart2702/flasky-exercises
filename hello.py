@@ -65,7 +65,12 @@ def index():
     if form.validate_on_submit():
         name = form.name.data
         form.name.data = ''
-    return render_template('index.html', form = form, name = name, current_time = datetime.utcnow())
+    return render_template(
+        'index.html',
+        form = form,
+        name = name,
+        current_time = datetime.utcnow()
+    )
 
 
 @app.route('/user/<IName>')
