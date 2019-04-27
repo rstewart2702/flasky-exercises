@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, session, redirect, url_for
+from flask import Flask, render_template, abort, session, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
@@ -60,9 +60,15 @@ moment = Moment(app)
 
 @app.route('/', methods=['GET','POST'])
 def index():
-    name = None
     form = NameForm()
     if form.validate_on_submit():
+        old_name = session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            # The flash() function is invoked with a message to be displayed on
+            # the next response sent back to the client!
+            # Of course, a template must also be changed along with this!
+            flash('Looks like you have changed your name!')
+        #
         # If the user submitted data which passed validation,
         # then we wish to store the name field's data inside
         # a session-local variable called 'name' so that it
