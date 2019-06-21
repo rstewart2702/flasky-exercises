@@ -72,7 +72,7 @@ class Role(db.Model):
     name = db.Column(db.String(64), unique=True)
     #
     # for "referential integrity" and for ooey-gooey orm-ness:
-    users = db.relationship('User', backref = 'role')
+    users = db.relationship('User', backref = 'role', lazy='dynamic')
     #
     def __repr__(self):
         return '<Role %r>' % self.name
