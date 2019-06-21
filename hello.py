@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, abort, session, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
@@ -6,6 +8,32 @@ from flask_moment import Moment
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+
+from flask_sqlalchemy import SQLAlchemy
+
+# This allows a "page-loaded" time to be propagated to the page,
+# expressed in UTC, and the Moment.js Javascript can then be
+# pushed to user pages to get the browser client to calculated
+# how much time has elapsed since page load took place...
+from datetime import datetime
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(__name__)
+# N.B. this is really just an example of how it might be done,
+# and the real SECRET_KEY of a real application would likely be
+# set up via an environment variable or some other mechanism
+# that's easier to secure properly from prying eyes.
+#
+# An application SECRET_KEY is used by the form-handling to protect
+# from cross-site request forgery, CSRF.
+app.config['SECRET_KEY']='hard to guess string'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 # Each web-form is represented by an instance of a class derived
 # from FlaskForm.
@@ -37,23 +65,31 @@ class NameForm(FlaskForm):
     submit = \
     SubmitField('Submit')
 
+# Database-related classes:
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    #
+    # for "referential integrity" and for ooey-gooey orm-ness:
+    users = db.relationship('User', backref = 'role')
+    #
+    def __repr__(self):
+        return '<Role %r>' % self.name
+    
 
-# This allows a "page-loaded" time to be propagated to the page,
-# expressed in UTC, and the Moment.js Javascript can then be
-# pushed to user pages to get the browser client to calculated
-# how much time has elapsed since page load took place...
-from datetime import datetime
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    #
+    # for 'referential integrity' and ooey-gooey orm-ness:
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id')) 
+    #
+    def __repr__(self):
+        return '<User %r>' % self.username
+    
 
-
-app = Flask(__name__)
-# N.B. this is really just an example of how it might be done,
-# and the real SECRET_KEY of a real application would likely be
-# set up via an environment variable or some other mechanism
-# that's easier to secure properly from prying eyes.
-#
-# An application SECRET_KEY is used by the form-handling to protect
-# from cross-site request forgery, CSRF.
-app.config['SECRET_KEY']='hard to guess string'
 
 bootstrap = Bootstrap(app)
 moment = Moment(app)
