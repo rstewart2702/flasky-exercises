@@ -11,3 +11,6 @@ rem At start of chapter 4, we add in flask-wtf, for help with
 rem forms handling:
 pip install flask-wtf
 
+rem At start of Chapter 5:
+rem add in flask-sqlalchemy, in order to interface with databases:
+pip install flask-sqlalchemy
