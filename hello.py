@@ -132,6 +132,15 @@ def index():
         current_time = datetime.utcnow()
     )
 
+# This provides a "shell context processor," which is used by 
+# Flask and/or flask-sqlalchemy in order to auto-matically/-magically
+# provide references to the database instance and the model
+# meta-objects, so that they're available for use when using the
+# "flask shell" interactive prompt, etc:
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User, Role=Role)
+
 
 @app.route('/user/<IName>')
 def user(IName):
