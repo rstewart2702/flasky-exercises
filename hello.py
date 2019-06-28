@@ -17,6 +17,11 @@ from flask_sqlalchemy import SQLAlchemy
 # how much time has elapsed since page load took place...
 from datetime import datetime
 
+# Adding in the Flask-migrate pieces:
+from flask_migrate import Migrate
+
+#################################################################
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
@@ -89,6 +94,9 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
     
+# "To expose the database migration commands, Flask-Migrate
+# adds a flask db command with several subcommands...
+migrate = Migrate(app, db)
 
 
 bootstrap = Bootstrap(app)
