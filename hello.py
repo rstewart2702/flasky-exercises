@@ -98,39 +98,32 @@ moment = Moment(app)
 def index():
     form = NameForm()
     if form.validate_on_submit():
-        old_name = session.get('name')
-        if old_name is not None and old_name != form.name.data:
-            # The flash() function is invoked with a message to be displayed on
-            # the next response sent back to the client!
-            # Of course, a template must also be changed along with this,
-            # in order to retrieve the accumulated message texts into a
-            # rendered page.
-            flash('Looks like you have changed your name!')
-            flash('Feel free to change as often as necessary...')
+        user = User.query.filter_by(username=form.name.data).first()
+        if user is None:
+            user = User(username=form.name.data)
+            db.session.add(user)
+            db.session.commit()
+            session['known'] = False
+        else:
+            session['known'] = True
         #
-        # If the user submitted data which passed validation,
-        # then we wish to store the name field's data inside
-        # a session-local variable called 'name' so that it
-        # persists across invocations to this function, and
-        # redirect the user's browser to the this same place
-        # again, which will allow the form to be redisplayed
-        # due to a GET request submitted by the browser,
-        # because of the redirect.
-        # This implements the "post-redirect-get" cycle.
         session['name'] = form.name.data
+        form.name.data = ''
+        # Again, this is here to implment post-redirect-get cycle.
+        # Also, the data stored in "session-key" 'known' provides
+        # the way for the subsequent GET-handling respond according
+        # to whether or not the name is "brand new" or has been
+        # stored in the past!
         return redirect(url_for('index'))
     #
-    # N.B. session.get('name') will evaluate to None if there are no data
-    # stored under the 'name' key within the session.
-    # If we had written session['name'] instead, that expression could
-    # result in an exception if there is no 'name' key within session.
-    # Using the get() method is preferable.
     return render_template(
         'index.html',
-        form = form,
-        name = session.get('name'),
+        form=form,
+        name=session.get('name'),
+        known=session.get('known',False),
         current_time = datetime.utcnow()
     )
+
 
 
 @app.route('/user/<IName>')
