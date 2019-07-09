@@ -22,6 +22,7 @@ from flask_migrate import Migrate
 
 # Adding in support for the 
 from flask_mail import Mail
+from flask_mail import Message
 
 #################################################################
 
@@ -113,6 +114,23 @@ app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 
 mail = Mail(app)
 
+app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = '[Flasky]'
+app.config['FLASKY_MAIL_SENDER'] = 'Flasky Admin <flaskyadmin@example.com>'
+
+app.config['FLASKY_ADMIN'] = os.environ.get('FLASKY_ADMIN')
+
+def send_email(to, subject, template, **kwargs):
+    msg = \
+      Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + subject,
+              sender = app.config['FLASKY_MAIL_SENDER'],
+              recipients = [to])
+    # Notice that there are two different kinds of templates being used here.
+    # Also, notice that the "kwargs" is used to flexibly provide a dictionary
+    # of (parameter,value) pairs to the render_template function:
+    msg.body = render_template(template + '.txt', **kwargs)
+    msg.html = render_template(template + '.html', **kwargs)
+    mail.send(msg)
+
 
 # "To expose the database migration commands, Flask-Migrate
 # adds a flask db command with several subcommands...
@@ -139,6 +157,9 @@ def index():
             # rendered page.
             flash('Looks like you have changed your name!')
             flash('Feel free to change as often as necessary...')
+            if app.config['FLASKY_ADMIN']:
+                send_email(app.config['FLASKY_ADMIN'], 'New User',
+                           'mail/new_user', user=user)
         else:
             session['known'] = True
         #
