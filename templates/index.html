@@ -9,6 +9,11 @@ will be made available herein.  In this case, one parameter is current_time. #}
 {% block page_content %}
 <div class="page-header">
   <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+  {% if not known %}
+  <p>Pleased to meet you!</p>
+  {% else %}
+  <p>Happy to see you again!</p>
+  {% endif %}
   {# Render the passed-in form: #}
   {{ wtf.quick_form(form) }}
   

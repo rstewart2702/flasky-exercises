@@ -106,8 +106,12 @@ moment = Moment(app)
 def index():
     form = NameForm()
     if form.validate_on_submit():
-        old_name = session.get('name')
-        if old_name is not None and old_name != form.name.data:
+        user = User.query.filter_by(username=form.name.data).first()
+        if user is None:
+            user = User(username=form.name.data)
+            db.session.add(user)
+            db.session.commit()
+            session['known'] = False
             # The flash() function is invoked with a message to be displayed on
             # the next response sent back to the client!
             # Of course, a template must also be changed along with this,
@@ -115,6 +119,8 @@ def index():
             # rendered page.
             flash('Looks like you have changed your name!')
             flash('Feel free to change as often as necessary...')
+        else:
+            session['known'] = True
         #
         # If the user submitted data which passed validation,
         # then we wish to store the name field's data inside
@@ -137,6 +143,7 @@ def index():
         'index.html',
         form = form,
         name = session.get('name'),
+        known = session.get('known',False),
         current_time = datetime.utcnow()
     )
 
