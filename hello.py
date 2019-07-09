@@ -20,6 +20,9 @@ from datetime import datetime
 # Adding in the Flask-migrate pieces:
 from flask_migrate import Migrate
 
+# Adding in support for the 
+from flask_mail import Mail
+
 #################################################################
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -94,6 +97,23 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
     
+################################################################################
+#
+# Configurations for mail support:
+# N.B. store username and password in the enclosing environment,
+# instead of in a configuration file or program file, eh?
+
+app.config['MAIL_SERVER'] = 'mail.proassurance.com'
+app.config['MAIL_PORT'] = 25 # deduced from an existing application's configuration file...
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+
+# N.B. some environments don't require an email password, eh?
+# app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+
+mail = Mail(app)
+
+
 # "To expose the database migration commands, Flask-Migrate
 # adds a flask db command with several subcommands...
 migrate = Migrate(app, db)

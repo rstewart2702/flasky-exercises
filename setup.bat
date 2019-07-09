@@ -19,3 +19,7 @@ rem Midway-through Chapter 5:
 rem installation of the flask-migrate package, to ease
 rem migration/maintenance of relational database changes.
 pip install flask-migrate
+
+rem Start of Chapter 6:
+rem installation of the flask-mail package, to help with email management...
+pip install flask-mail
