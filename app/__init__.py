@@ -20,7 +20,7 @@ def create_app(config_name):
     #
     bootstrap.init_app(app)
     mail.init_app(app)
-    moment_init_app(app)
+    moment.init_app(app)
     db.init_app(app)
 
     # attach routes and custom error pages here.
