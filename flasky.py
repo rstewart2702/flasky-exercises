@@ -10,3 +10,15 @@ migrate = Migrate(app,db)
 def make_shell_context():
     return dict(db=db, User=User, Role=Role)
 
+# The app.cli.command decorator allows us to implement
+# custom commands within Flask.
+# So, this adds a command named 'test' that can be 
+# executed from the command-line like so:
+#   flask test
+#
+@app.cli.command()
+def test(): 
+    """Run the unit tests."""
+    import unittest
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner(verbosity=2).run(tests)
