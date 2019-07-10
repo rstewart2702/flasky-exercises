@@ -6,7 +6,7 @@ from .. import db
 from ..models import User
 
 # N.B. now, the route-decorator comes from the blueprint, in this case, "main."
-@main.route('/', methods='GET','POST'])
+@main.route('/', methods=['GET','POST'])
 def index():
     form = NameForm()
     if form.validate_on_submit():
