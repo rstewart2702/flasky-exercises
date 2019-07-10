@@ -33,7 +33,7 @@ class TestingConfig(Config):
       os.environ.get('TEST_DATABASE_URL') or \
       'sqllite://'
 
-class Production(Config):
+class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = \
       os.environ.get('DATABASE_URL') or \
       'sqllite:///' + os.path.join(basedir, 'data.sqllite')
