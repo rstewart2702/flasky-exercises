@@ -1,7 +1,8 @@
 from datetime import datetime
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, flash, current_app
 from . import main
 from .forms import NameForm
+from ..email import send_email
 from .. import db
 from ..models import User
 
@@ -23,8 +24,8 @@ def index():
             # rendered page.
             flash('Looks like you have changed your name!')
             flash('Feel free to change as often as necessary...')
-            if app.config['FLASKY_ADMIN']:
-                send_email(app.config['FLASKY_ADMIN'], 'New User',
+            if current_app.config['FLASKY_ADMIN']:
+                send_email(current_app.config['FLASKY_ADMIN'], 'New User',
                            'mail/new_user', user=user)
         else:
             session['known'] = True
