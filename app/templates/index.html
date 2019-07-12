@@ -21,5 +21,5 @@ will be made available herein.  In this case, one parameter is current_time. #}
   <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
 </div>
 N.B. the absolute address of this page is:
-  <a href="{{ url_for('index', _external=True) }}">{{ url_for('index', _external=True) }}</a>
+  <a href="{{ url_for('.index', _external=True) }}">{{ url_for('.index', _external=True) }}</a>
 {% endblock %}
