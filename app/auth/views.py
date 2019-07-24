@@ -1,5 +1,5 @@
 from flask import render_template, redirect, request, url_for, flash
-from flask_login import login_user
+from flask_login import login_user, login_required
 
 from . import auth
 
@@ -24,3 +24,10 @@ def login():
     # application's templates directory.  So, we avoid naming collisions
     # with the main blueprint or other future blueprints that'll be added.
     return render_template('auth/login.html',form=form)
+
+@auto.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('main.index'))
