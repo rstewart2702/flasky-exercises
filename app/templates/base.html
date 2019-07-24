@@ -30,8 +30,24 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        {# N.B. THE href PART OF THE FOLLOWING IS LIKELY A CURRENT PROBLEM,
+           BUT GRINBERG'S BOOK DIDN'T EXPLICITLY SAY TO CHANGE IT.
+           IT WAS CHANGED IN HIS GIT REPO TO:  
+             url_for('main.index')
+           BY THE 7a TAG IN HIS REPOSITORY. #}	
         <li><a href="/">Home</a></li>
       </ul>
+      {# WAS NOT SURE ABOUT WHERE THIS SHOULD BE PLACED:
+         IN MIDST OF CHAPTER 8.
+         HAD TO PEEK AT GRINBERG'S REPOSITORY FOR A HINT. #}
+      <ul class="havbar navbar-nav navbar-right">
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+        {% else %}
+        <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+        {% endif %}
+      </ul>
+      {# END OF STUFF ADDED IN CHAPTER 8. #}
     </div>
   </div>
 </div>
