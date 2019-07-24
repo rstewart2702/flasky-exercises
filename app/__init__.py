@@ -27,4 +27,11 @@ def create_app(config_name):
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    # Attach the auth blueprint to the application:
+    from .auth import auth as auth_blueprint
+    # N.B. the url_prefix parameter means that all routes
+    # defined in the auth blueprint will be registered with the
+    # '/auth' prefix, in this case.
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
     return app
