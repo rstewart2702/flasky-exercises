@@ -23,3 +23,11 @@ pip install flask-migrate
 rem Start of Chapter 6:
 rem installation of the flask-mail package, to help with email management...
 pip install flask-mail
+
+rem Start of Chapter 8:
+rem For the material in chapter 8, package werkzeug is also needed, but it 
+rem was brought in earlier since packages installed earlier depended on it,
+rem so it should be installed already.
+rem 
+rem Authentication-related packages:
+pip install flask-login
