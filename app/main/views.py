@@ -43,7 +43,8 @@ def index():
         # 
         # Now that we're using a flask blueprint, the template resides
         # in a namespace; in this case, it'd be main.index, so that's
-        # why we say '.index' here:
+        # why we say '.index' here, because it's the shortened form
+        # of 'main.index'
         return redirect(url_for('.index'))
     #
     # N.B. session.get('name') will evaluate to None if there are no data
