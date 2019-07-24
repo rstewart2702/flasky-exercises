@@ -2,6 +2,16 @@ from . import db
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from . import login_manager
+
+# flask-login will call the following function when it needs to retrieve
+# information about the logged-in user.  The decorator ensures that
+# the function is registered with flask-login:
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 # Database-related classes:
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -15,10 +25,13 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key = True)
+    email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
+    password_hash = db.Column(db.String(128))
+    role_id = db.Columns(db.Integer, db.ForeignKey('roles.id'))
     #
     #
     password_hash = db.Column(db.String(128))
@@ -46,3 +59,4 @@ class User(db.Model):
     #
     def __repr__(self):
         return '<User %r>' % self.username
+

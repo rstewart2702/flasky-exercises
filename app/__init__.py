@@ -6,6 +6,14 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from config import config
 
+from flask_login import LoginManager
+
+login_manager = LoginManager()
+# The following defines the endpoint for the login page.
+# flask_login will redirect to login page when an anonymous user
+# tries to access a protected page.
+login_manager.login_view = 'auth.login'
+
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
@@ -33,5 +41,7 @@ def create_app(config_name):
     # defined in the auth blueprint will be registered with the
     # '/auth' prefix, in this case.
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+    login_manager.init_app(app)
 
     return app
