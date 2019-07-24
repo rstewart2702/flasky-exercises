@@ -13,7 +13,7 @@ login_manager = LoginManager()
 # flask_login will redirect to login page when an anonymous user
 # tries to access a protected page.  The login route is inside
 # a blueprint, so it needs to be prefixed with the blueprint's
-# name
+# name.
 login_manager.login_view = 'auth.login'
 
 bootstrap = Bootstrap()
