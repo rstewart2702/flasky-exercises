@@ -25,7 +25,7 @@ def login():
     # with the main blueprint or other future blueprints that'll be added.
     return render_template('auth/login.html',form=form)
 
-@auto.route('/logout')
+@auth.route('/logout')
 @login_required
 def logout():
     logout_user()
