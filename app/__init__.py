@@ -50,5 +50,13 @@ def create_app(config_name):
     # We can't get at the ultimate database url from herein.
     # the following causes a runtime error:
     # print("Using database url:  ", db.engine.url)
+    #
+    # The flask-sqlalchemy documentation helps with this conundrum.
+    # We must derive a "context" in order that the instance of
+    # SQLAlchemy may have something to operate with.
+    # N.B. SQLAlchemy is a class provided by the flask_sqlalchemy
+    # module!
+    with app.app_context():
+        print("Using database url:  ", db.engine.url)
 
     return app
