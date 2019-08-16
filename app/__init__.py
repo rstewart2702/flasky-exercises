@@ -46,4 +46,9 @@ def create_app(config_name):
 
     login_manager.init_app(app)
 
+    print("Started up with configuration:  ", config_name)
+    # We can't get at the ultimate database url from herein.
+    # the following causes a runtime error:
+    # print("Using database url:  ", db.engine.url)
+
     return app
