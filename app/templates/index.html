@@ -6,9 +6,21 @@
 {# Recall that parameters passed to the render_template from the "destination function"
 will be made available herein.  In this case, one parameter is current_time. #}
 
+{#
+There's a lot of stuff done under the covers to bind a value to the
+name current_user.
+See Grinberg's chapter 8, "Understandng How Flask-Login Works"
+#}
+
 {% block page_content %}
 <div class="page-header">
-  <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+  <h1>Hello,
+    {% if current_user.is_authenticated %}
+      {{ current_user.username }}
+    {% else %}
+      Stranger
+    {% endif %}!
+    </h1>
   {% if not known %}
   <p>Pleased to meet you!</p>
   {% else %}
