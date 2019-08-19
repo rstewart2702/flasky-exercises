@@ -23,6 +23,11 @@ from wtforms.validators import DataRequired
 # (I guess?) to deduce the form constituent parts, and render the
 # appropriate HTML.
 #
+
+# N.B. as of about 8c or 8d in chapter 8 of the Grinberg book,
+# this class is not needed any longer, since we've moved onto more
+# traditional user-management techniques.  But the notes above
+# are still significant and are knowledge gleaned from the Grinberg book.
 class NameForm(FlaskForm):
     name = \
     StringField(
