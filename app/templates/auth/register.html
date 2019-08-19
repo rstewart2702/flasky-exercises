@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky - Register{% endblock %}
+
+{# Shining example of how to cobble-together a quick-and-dirty
+   web form using the tools already in the toolbox!
+   The use of the wtf.quick_form() function, passing it the
+   for argument (which has been provided to this template!)
+   is how this "default" form-setup is achieved. #}
+
+{% block page_content %}
+<div class="page-header" >
+  <h1>Login</h1>
+</div>
+<div class="col-md-4">
+  {{ wtf.quick_form(form) }}
+</div>
+
+{% endblock %}
